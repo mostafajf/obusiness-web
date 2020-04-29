@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>hi</h1>
+    <h1>hisds</h1>
   </div>
 </template>
 
@@ -11,6 +11,3 @@ export default Vue.extend({
   name: "Home"
 });
 </script>
-
-<style scoped>
-</style>

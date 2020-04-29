@@ -1,5 +1,7 @@
 <template>
-  <div></div>
+  <div>
+    <slot></slot>
+  </div>
 </template>
 
 <script lang="ts">
@@ -10,5 +12,4 @@ export default Vue.extend({
 });
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
