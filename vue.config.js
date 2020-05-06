@@ -9,39 +9,39 @@ const wc = process.env.WC == "true" ? true : false;
 module.exports = {
   outputDir: wc == false ? __dirname + "/dist" : __dirname + "/dist/distwc",
   configureWebpack: {
+    devtool: "source-map", //for debugging
     entry: wc == false ? "./src/main.ts" : "./src/main-wc.ts",
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     plugins: generatePlugins(),
     resolve: {
       alias: {
-        "@src": path.resolve(__dirname, "src")
-      }
-    }
+        "@src": path.resolve(__dirname, "src"),
+      },
+    },
   },
-  // eslint-disable-next-line prettier/prettier
   chainWebpack: (config) => {
     if (wc === true) {
       config.optimization.delete("splitChunks");
     }
-  }
+  },
 };
 function generatePlugins() {
   const plugins = [];
   plugins.push(
     new webpack.DefinePlugin({
       "process.env.WC": JSON.stringify(process.env.WC),
-      "process.env.VERSION": '"' + version + '"'
+      "process.env.VERSION": '"' + version + '"',
     })
   );
   plugins.push(
     new webpack.optimize.LimitChunkCountPlugin({
-      maxChunks: wc === false ? 8 : 1
+      maxChunks: wc === false ? 8 : 1,
     })
   );
   plugins.push(
     new HtmlWebpackPlugin({
       title: "obusiness",
-      filename: "./public/index.html"
+      filename: "./public/index.html",
     })
   );
   if (wc == true) {
@@ -49,7 +49,7 @@ function generatePlugins() {
       new HtmlWebpackPlugin({
         title: "obusiness WC",
         filename: "index.html",
-        template: "./public/indexwc.html"
+        template: "./public/indexwc.html",
       })
     );
   }

@@ -1,4 +1,4 @@
-﻿import { IProductDto } from './ProductDto';
+﻿import { IProductDto } from './IProductDto';
 
 export interface ICategoryDto {
     iD: number;
