@@ -1,20 +1,19 @@
 import { StoreService } from "@/api/services/storeService";
-import store from "..";
 export default {
   state: {
-    stores: [],
+    stores: []
   },
   mutations: {
-    setStores(state: any, payload: any) {
+    setStores(state, payload) {
       state.stores = payload;
-    },
+    }
   },
   actions: {
-    async getStores(context: any) {
+    async getStores(context) {
       const storeService = new StoreService();
       const stores = await storeService.getAllStores();
       context.commit("setStores", stores);
-    },
+    }
   },
-  getters: {},
+  getters: {}
 };

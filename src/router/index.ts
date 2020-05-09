@@ -4,7 +4,6 @@ import Home from "../pages/home.vue";
 
 Vue.use(VueRouter);
 
-
 const routes: Array<RouteConfig> = [
   {
     path: "/",
@@ -13,8 +12,7 @@ const routes: Array<RouteConfig> = [
     meta: {
       layout: "full"
     }
-  },
-
+  }
 ];
 
 const router = new VueRouter({

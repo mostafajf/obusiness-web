@@ -6,6 +6,6 @@ export const storeApiClient = axios.create({
   timeout: 10000,
   headers: {
     "Access-Control-Allow-Origin": "*",
-    "content-type": "application/json",
-  },
+    "content-type": "application/json"
+  }
 });

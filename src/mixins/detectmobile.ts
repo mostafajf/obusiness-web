@@ -1,28 +1,36 @@
 export const DetectMobile = {
   methods: {
-    isMobile: function () {
+    isMobile: function() {
       const devices = {
-        Android: function () {
+        Android: function() {
           return navigator.userAgent.match(/Android/i);
         },
-        BlackBerry: function () {
+        BlackBerry: function() {
           return navigator.userAgent.match(/BlackBerry/i);
         },
-        iOS: function () {
+        iOS: function() {
           return navigator.userAgent.match(/iPhone|iPad|iPod/i);
         },
-        Opera: function () {
+        Opera: function() {
           return navigator.userAgent.match(/Opera Mini/i);
         },
-        Windows: function () {
-          return navigator.userAgent.match(/IEMobile/i) || navigator.userAgent.match(/WPDesktop/i);
+        Windows: function() {
+          return (
+            navigator.userAgent.match(/IEMobile/i) ||
+            navigator.userAgent.match(/WPDesktop/i)
+          );
         },
-        any: function () {
-          return (devices.Android() || devices.BlackBerry() || devices.iOS() || devices.Opera() || devices.Windows());
+        any: function() {
+          return (
+            devices.Android() ||
+            devices.BlackBerry() ||
+            devices.iOS() ||
+            devices.Opera() ||
+            devices.Windows()
+          );
         }
-      }
+      };
       return devices;
-
     }
   }
 };

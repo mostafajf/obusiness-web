@@ -1,4 +1,25 @@
-
-#truth-app{
-  
+@import url("./bootstrap-reboot.css");
+@import "./mixins.scss";
+#truth-app {
+  .responsive-items {
+    /* Grid styles */
+    display: grid;
+    align-items: center;
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    grid-column-gap: 2rem;
+    grid-row-gap: 1rem;
+    @include body-padding;
+    .store {
+      &:hover {
+        cursor: pointer;
+      }
+      figure {
+        img {
+          object-fit: cover;
+          width: 100%;
+          height: 240px;
+        }
+      }
+    }
+  }
 }

@@ -7,11 +7,11 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   strict: true,
   modules: {
-    storeModule,
+    storeModule
   },
   plugins: [
     createPersistedState({
-      paths: ["storeModeule"],
-    }),
-  ],
+      paths: ["storeModeule"]
+    })
+  ]
 });
