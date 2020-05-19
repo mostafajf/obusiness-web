@@ -1,6 +1,17 @@
 @import url("./bootstrap-reboot.css");
 @import "./mixins.scss";
-#truth-app {
+@import "./theme.scss";
+@import "./variables.scss";
+@import "./utilities.scss";
+#ob-app {
+  display: flex;
+  justify-content: center;
+  .root {
+    max-width: 1920px;
+    flex-grow: 1;
+  }
+  background-color: var(--body-color);
+
   .responsive-items {
     /* Grid styles */
     display: grid;
@@ -8,7 +19,10 @@
     grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
     grid-column-gap: 2rem;
     grid-row-gap: 1rem;
-    @include body-padding;
+    padding: 0 $body-padding;
+    @include breakpoint(mobileonly) {
+      padding: 0 $bosy-padding-mobile;
+    }
     .store {
       &:hover {
         cursor: pointer;
@@ -18,6 +32,72 @@
           object-fit: cover;
           width: 100%;
           height: 240px;
+        }
+      }
+      .title {
+        font-size: 18px;
+        font-weight: 500;
+      }
+    }
+  }
+  .top-header {
+    display: grid;
+    height: 80px;
+    grid-template-columns: repeat(2, 1fr);
+    align-content: center;
+    padding: 0 $body-padding;
+    font-size: 16px;
+    .right-side {
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+  .category-header {
+    position: relative;
+    figure {
+      margin: 0 !important;
+      position: absolute;
+      bottom: 0;
+      top: 0;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+    .store-info-container {
+      height: 380px;
+      display: flex;
+      flex-direction: column;
+      background: transparent;
+      & > div:first-child {
+        flex-basis: 80px;
+        flex-grow: 1;
+      }
+      & > div:last-child {
+        flex-basis: 80px;
+        flex-grow: 1;
+      }
+      .store-info {
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        .info-box {
+          display: flex;
+          padding: 24px 0;
+          background-color: white;
+          box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 20px;
+          & > div:first-child {
+            width: 80px;
+          }
+          .content {
+            h1 {
+              font-size: 36px;
+            }
+          }
+          & > div:last-child {
+            width: 40px;
+          }
         }
       }
     }

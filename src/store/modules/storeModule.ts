@@ -1,11 +1,16 @@
 import { StoreService } from "@/api/services/storeService";
+
 export default {
   state: {
-    stores: []
+    stores: [],
+    currentStore: null
   },
   mutations: {
     setStores(state, payload) {
       state.stores = payload;
+    },
+    setCurrentStore(state, payload) {
+      state.currentStore = payload;
     }
   },
   actions: {
@@ -15,5 +20,9 @@ export default {
       context.commit("setStores", stores);
     }
   },
-  getters: {}
+  getters: {
+    getCurrentStore(state) {
+      return state.currentStore;
+    }
+  }
 };

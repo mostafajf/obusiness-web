@@ -11,7 +11,7 @@ export default new Vuex.Store({
   },
   plugins: [
     createPersistedState({
-      paths: ["storeModeule"]
+      paths: ["storeModule"]
     })
   ]
 });

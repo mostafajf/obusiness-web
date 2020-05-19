@@ -1,5 +1,5 @@
 ﻿export class OperatingHours {
-  closingTime?: string;
-  dayOfWeek?: string;
-  openingTime?: string;
+  closingTime!: string;
+  dayOfWeek!: string;
+  openingTime!: string;
 }

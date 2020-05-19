@@ -1,17 +1,14 @@
 <template>
-  <div>
-    <top-header />
-    <slot></slot>
-  </div>
+  <category-header />
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import topHeader from "@/components/shared/topHeader.vue";
+import CategoryHeader from "@/components/category/categoryHeader.vue";
 export default Vue.extend({
-  name: "storeLayout",
+  name: "Category",
   components: {
-    topHeader
+    CategoryHeader
   }
 });
 </script>

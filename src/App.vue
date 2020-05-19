@@ -1,8 +1,10 @@
 <template>
-  <div id="truth-app">
-    <component :is="layout">
-      <router-view />
-    </component>
+  <div id="ob-app">
+    <div class="root">
+      <component :is="layout">
+        <router-view />
+      </component>
+    </div>
   </div>
 </template>
 

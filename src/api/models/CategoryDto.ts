@@ -8,5 +8,5 @@ export class CategoryDto {
   }
   iD: number;
   name: string;
-  products?: ProductDto[];
+  products!: ProductDto[];
 }
