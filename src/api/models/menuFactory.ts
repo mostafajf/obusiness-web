@@ -16,20 +16,21 @@ export class MenuFactory {
 
   CreateMenu(menu): MenuDto {
     const menuDto = {} as MenuDto;
-    menuDto.categories = this.ListCategories(menu.Doc);
-    menuDto.menuID = menu.Doc.MenuID;
+    menuDto.categories = this.ListCategories(menu.doc);
+    menuDto.menuID = menu.doc.menuID;
     return menuDto;
   }
 
   ListCategories(menu): CategoryDto[] {
-    const categorieDtos: CategoryDto[] = [];
-    for (const category of menu.Categories) {
+    const categoryDtos: CategoryDto[] = [];
+    for (const category of menu.categories) {
       const categoryDto = this.CategoryToCategoryDto(category);
 
       const productDtos: ProductDto[] = [];
-      const productIds = category.subMenuItems.map(sub => sub.ProductID);
-      const products = Object.entries(menu.Products).filter(p =>
-        productIds.includes(p[0])
+      const productIds = category.subMenuItems.map(sub => sub.productID);
+
+      const products = Object.entries(menu.products).filter(p =>
+        productIds.includes(+p[0])
       );
       for (const [key, value] of products) {
         const pp: any = value;
@@ -39,36 +40,37 @@ export class MenuFactory {
           fullDescription: pp.fullDescription,
           name: pp.name,
           photoUrl: pp.photoUrl,
-          productCode: pp.ProductCode,
-          shortDescription: pp.ShortDescription,
-          status: pp.Status,
-          taxRate: pp.TaxRate,
-          productCategoryIDs: pp.ProductCategoryNames,
-          productTagIDs: pp.ProductTagIDs
+          productCode: pp.productCode,
+          shortDescription: pp.shortDescription,
+          status: pp.status,
+          taxRate: pp.taxRate,
+          productCategoryIDs: pp.productCategoryNames,
+          productTagIDs: pp.productTagIDs
         } as ProductDto;
         pDto.modifierGroups = this.ModifierList(menu, pp, pDto);
 
-        const categoryProduct = category.SubMenuItems.FirstOrDefault(
-          sItem => sItem.ProductID == pDto.iD
-        );
-        pDto.price = categoryProduct.Price.Value;
-        pDto.name = categoryProduct.Name;
+        const categoryProduct = category.subMenuItems.filter(
+          sItem => sItem.productID == pDto.iD
+        )[0];
+        pDto.price = categoryProduct.price;
+        pDto.name = categoryProduct.name;
         productDtos.push(pDto);
       }
 
       categoryDto.products.push(...productDtos);
-      if (category.SubMenuItems.Any()) {
-        categorieDtos.push(categoryDto);
+      if (category.subMenuItems.length > 0) {
+        categoryDtos.push(categoryDto);
       }
     }
 
-    return categorieDtos;
+    return categoryDtos;
   }
 
   CategoryToCategoryDto(category): CategoryDto {
     const categoryDto = {
-      iD: category.ID,
-      name: category.Name
+      iD: category.id,
+      name: category.name,
+      products: []
     } as CategoryDto;
 
     return categoryDto;
@@ -81,12 +83,12 @@ export class MenuFactory {
   ): ModifierGroupDto[] {
     const modifierGroupsList: ModifierGroupDto[] = [];
     //sort
-    const productModifierGroups = Object.entries(menu.modifierGroups).filter(
-      mg => product.modifierGroups[mg[0]]
-    );
+    const productModifierGroups = Object.entries(
+      menu.modifierGroups
+    ).filter(mg => product.modifierGroups.includes(mg[0]));
     for (const [key, value] of productModifierGroups) {
       const mgDto = this.ModifierGrouptoModifierGroupDto(key, value);
-      mgDto.product = productDto;
+      mgDto.productId = productDto.iD;
       modifierGroupsList.push(mgDto);
     }
 
@@ -94,18 +96,9 @@ export class MenuFactory {
   }
 
   ModifierGrouptoModifierGroupDto(key, mg): ModifierGroupDto {
-    if (mg.MaximumSelection == 0) {
-      mg.MaximumSelection = null;
+    if (mg.maximumSelection < mg.minimumSelection) {
+      mg.maximumSelection = mg.minimumSelection;
     }
-
-    if (
-      mg.MaximumSelection.HasValue &&
-      mg.MinimumSelection.HasValue &&
-      mg.MaximumSelection.Value < mg.MinimumSelection.Value
-    ) {
-      mg.MaximumSelection = mg.MinimumSelection;
-    }
-
     const mgDto = {
       iD: key,
       displayOrder: mg.displayOrder,
@@ -117,12 +110,15 @@ export class MenuFactory {
       isPromptSel: mg.isPromptSel || false,
       maximumSelection: mg.maximumSelection,
       minimumSelection: mg.minimumSelection,
-      includeQuantity: mg.includeQuantity
+      includeQuantity: mg.includeQuantity,
+      modifiersList: [] as ModifierDto[]
     } as ModifierGroupDto;
-    for (const md of mg.Modifiers.sort(
+    for (const md of mg.modifiers.sort(
       (o1, o2) => o1.displayOrder - o2.displayOrder
     )) {
-      mgDto.modifiersList.push(md as ModifierDto);
+      const modifier = md as ModifierDto;
+      modifier.modifierGroupId = +mgDto.iD;
+      mgDto.modifiersList.push(modifier);
     }
 
     return mgDto;

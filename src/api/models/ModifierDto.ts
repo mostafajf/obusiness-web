@@ -1,7 +1,7 @@
 ﻿import { ModifierGroupDto } from "./ModifierGroupDto";
 
 export class ModifierDto {
-  modifierGroupId = 1;
+  modifierGroupId!: number;
   status = 0;
   code = "";
   displayName!: string;
@@ -13,7 +13,6 @@ export class ModifierDto {
   taxRate!: number | null;
   photoUrl!: string;
   subModifiers: ModifierGroupDto[] = [];
-  modifierGroup!: ModifierGroupDto;
   isSingleSell!: boolean;
   minQty!: number | null;
   maxQty!: number | null;

@@ -18,5 +18,5 @@ export class ModifierGroupDto {
   selectionCount!: number;
   parentModifier!: ModifierDto;
   modifiersList!: ModifierDto[];
-  product!: ProductDto;
+  productId!: number;
 }
