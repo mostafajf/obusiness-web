@@ -11,6 +11,7 @@
             <div></div>
             <div class="content">
               <h1>{{ store.name }}</h1>
+              <div>{{ store.storeTitle }}</div>
               <div class="mt-1">{{ address }}</div>
               <div class="mt-1">{{ store.officePhone }}</div>
               <div class="mt-1" v-if="operatingTime">

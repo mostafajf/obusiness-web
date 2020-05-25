@@ -1,5 +1,6 @@
 @use 'sass:color';
-:root {
+:root,
+[data-theme="default"] {
   --primary: #000000;
   --primary-light: #2c2c2c;
   --primary-dark: #000000;
@@ -10,4 +11,7 @@
   --secondary-f: rgba(255, 255, 255, 0.87);
 
   --body-color: #ffffff;
+  --body-f: rgba(0, 0, 0, 0.87);
+  --body-f-l: rgba(0, 0, 0, 0.7);
+  --body-f-ll: rgba(0, 0, 0, 0.1);
 }
