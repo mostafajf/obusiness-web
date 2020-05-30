@@ -9,22 +9,17 @@
         <h2 class="category-title fw-600">{{ category.name }}</h2>
         <ul class="product-list">
           <li v-for="product in category.products" :key="product.iD">
-            <div class="product-box">
-              <div class="product-info">
-                <h4>{{ product.name }}</h4>
-                <div class="discription">
-                  <div>{{ product.shortDescription }}</div>
-                </div>
-                <div class="product-price">${{ product.price }}</div>
-              </div>
-              <div v-if="product.photoUrl">
-                <img :src="product.photoUrl" :alt="product.name" />
-              </div>
-            </div>
+            <product
+              :product="product"
+              @click.native="showProductDetails(product)"
+            />
           </li>
         </ul>
       </li>
     </ul>
+    <modal v-if="showModal" @closed="showModal = false">
+      <product-details :product="selectedProduct" />
+    </modal>
   </main>
 </template>
 
@@ -32,13 +27,33 @@
 import Vue from "vue";
 import { PropOptions } from "vue";
 import { CategoryDto } from "../../api/models/CategoryDto";
+import Product from "@/components/category/product.vue";
+import Modal from "@/components/shared/modal.vue";
+import ProductDetails from "@/components/category/productDetails.vue";
 export default Vue.extend({
   name: "CategoryProducts",
+  components: {
+    Product,
+    Modal,
+    ProductDetails
+  },
+  data() {
+    return {
+      showModal: false,
+      selectedProduct: {}
+    };
+  },
   props: {
     categories: {
       type: Array,
       default: () => []
     } as PropOptions<CategoryDto[]>
+  },
+  methods: {
+    showProductDetails(product) {
+      this.showModal = true;
+      this.selectedProduct = product;
+    }
   }
 });
 </script>
