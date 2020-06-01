@@ -1,4 +1,5 @@
 ﻿import { ModifierGroupDto } from "./ModifierGroupDto";
+import { ModifierDto } from "./ModifierDto";
 
 export class ProductDto {
   iD!: number;
@@ -16,4 +17,9 @@ export class ProductDto {
   taxRate!: number;
   price!: number;
   isRedemption!: boolean;
+  count!: 0;
+  initialModifiers!: ModifierDto[];
+  clone() {
+    return JSON.parse(JSON.stringify(this)) as ProductDto;
+  }
 }

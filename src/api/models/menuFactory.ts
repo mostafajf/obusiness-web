@@ -88,7 +88,7 @@ export class MenuFactory {
     ).filter(mg => product.modifierGroups.includes(mg[0]));
     for (const [key, value] of productModifierGroups) {
       const mgDto = this.ModifierGrouptoModifierGroupDto(key, value);
-      mgDto.productId = productDto.iD;
+      mgDto.product = productDto.clone();
       modifierGroupsList.push(mgDto);
     }
 
@@ -105,7 +105,6 @@ export class MenuFactory {
       isAutoSel: mg.isAutoSel,
       isForceSel: mg.isForceSel,
       isSingleSel: mg.isSingleSel,
-      isCollapsed: mg.isCollapsed || false,
       name: mg.name,
       isPromptSel: mg.isPromptSel || false,
       maximumSelection: mg.maximumSelection,
@@ -117,7 +116,7 @@ export class MenuFactory {
       (o1, o2) => o1.displayOrder - o2.displayOrder
     )) {
       const modifier = md as ModifierDto;
-      modifier.modifierGroupId = +mgDto.iD;
+      modifier.modifierGroup = mgDto.clone();
       mgDto.modifiersList.push(modifier);
     }
 
