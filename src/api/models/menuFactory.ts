@@ -34,19 +34,9 @@ export class MenuFactory {
       );
       for (const [key, value] of products) {
         const pp: any = value;
-        const pDto = {
-          iD: +key,
-          displayOrder: pp.displayOrder,
-          fullDescription: pp.fullDescription,
-          name: pp.name,
-          photoUrl: pp.photoUrl,
-          productCode: pp.productCode,
-          shortDescription: pp.shortDescription,
-          status: pp.status,
-          taxRate: pp.taxRate,
-          productCategoryIDs: pp.productCategoryNames,
-          productTagIDs: pp.productTagIDs
-        } as ProductDto;
+        const pDto = new ProductDto(pp);
+
+        pDto.iD = +key;
         pDto.modifierGroups = this.ModifierList(menu, pp, pDto);
 
         const categoryProduct = category.subMenuItems.filter(
@@ -88,7 +78,7 @@ export class MenuFactory {
     ).filter(mg => product.modifierGroups.includes(mg[0]));
     for (const [key, value] of productModifierGroups) {
       const mgDto = this.ModifierGrouptoModifierGroupDto(key, value);
-      mgDto.product = productDto.clone();
+      mgDto.productId = `${productDto.iD}`;
       modifierGroupsList.push(mgDto);
     }
 
@@ -99,7 +89,7 @@ export class MenuFactory {
     if (mg.maximumSelection < mg.minimumSelection) {
       mg.maximumSelection = mg.minimumSelection;
     }
-    const mgDto = {
+    const mgDto = new ModifierGroupDto({
       iD: key,
       displayOrder: mg.displayOrder,
       isAutoSel: mg.isAutoSel,
@@ -110,13 +100,13 @@ export class MenuFactory {
       maximumSelection: mg.maximumSelection,
       minimumSelection: mg.minimumSelection,
       includeQuantity: mg.includeQuantity,
-      modifiersList: [] as ModifierDto[]
-    } as ModifierGroupDto;
+      modifiersList: []
+    });
     for (const md of mg.modifiers.sort(
       (o1, o2) => o1.displayOrder - o2.displayOrder
     )) {
-      const modifier = md as ModifierDto;
-      modifier.modifierGroup = mgDto.clone();
+      const modifier = new ModifierDto(md);
+      modifier.modifierGroupId = mgDto.iD;
       mgDto.modifiersList.push(modifier);
     }
 

@@ -23,8 +23,7 @@ export default Vue.extend({
   },
   props: {
     stores: {
-      type: Array,
-      default: () => []
+      type: Array
     } as PropOptions<Store[]>
   },
   methods: {

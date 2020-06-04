@@ -1,27 +1,42 @@
 ﻿import { ModifierDto } from "./ModifierDto";
-import { ProductDto } from "./ProductDto";
 import { Constants } from "../constants/common";
 
 export class ModifierGroupDto {
-  displayOrder!: number;
-  selected!: boolean;
-  iD!: string;
-  isAutoSel!: boolean;
-  isForceSel!: boolean;
-  isSingleSel!: boolean;
-  name!: string;
-  isPromptSel!: boolean;
-  includeQuantity!: boolean;
-  maximumSelection!: number;
-  minimumSelection!: number;
-  selectionCount!: number;
-  parentModifier!: ModifierDto | null;
-  modifiersList!: ModifierDto[];
-  product!: ProductDto;
-  maximumDisabled!: boolean;
-  minimumDisabled!: boolean;
-  initModifiers() {
-    const intitState = this.product.initialModifiers;
+  constructor(json) {
+    this.productId = json.productId || "";
+    this.displayOrder = json.displayOrder || 1;
+    this.iD = json.iD || "";
+    this.includeQuantity = json.includeQuantity || false;
+    this.isAutoSel = json.isAutoSel || false;
+    this.isForceSel = json.isForceSel || false;
+    this.isPromptSel = json.isPromptSel || false;
+    this.isSingleSel = json.isSingleSel;
+    this.parentModifier = new ModifierDto({});
+    this.name = json.name || "";
+    this.name = json.name || "";
+    this.modifiersList = json.modifiersList
+      ? json.modifiersList.map(md => new ModifierDto(md))
+      : [];
+  }
+  displayOrder: number;
+  selected = false;
+  iD: string;
+  isAutoSel: boolean;
+  isForceSel: boolean;
+  isSingleSel: boolean;
+  name: string;
+  isPromptSel: boolean;
+  includeQuantity: boolean;
+  maximumSelection = 1;
+  minimumSelection = 1;
+  selectionCount = 0;
+  parentModifier: ModifierDto;
+  modifiersList: ModifierDto[];
+  maximumDisabled = false;
+  minimumDisabled = true;
+  productId: string;
+  initModifiers(initialModifiers: ModifierDto[]) {
+    const intitState = initialModifiers;
     for (const modifier of this.modifiersList) {
       if (modifier.maxQty == 0) {
         modifier.maxQty = Constants.MAX_QUANTITY;
@@ -60,8 +75,8 @@ export class ModifierGroupDto {
     // AutoSelectModifiers();
     // ForceSelectModifiers();
   }
-  autoSelectModifiers() {
-    if (this.isAutoSel && this.product.initialModifiers.length == 0) {
+  autoSelectModifiers(initialModifiers: ModifierDto[]) {
+    if (this.isAutoSel && initialModifiers.length == 0) {
       this.selectionCount = this.modifiersList.filter(
         md => md.count > 0
       ).length;
@@ -69,7 +84,7 @@ export class ModifierGroupDto {
         const modifier = this.modifiersList[index];
         if (
           (this.isSingleSel ? index == 0 : true) &&
-          (!this.maximumSelection ||
+          (this.maximumSelection ||
             this.maximumSelection >= this.selectionCount + modifier.minQty)
         ) {
           modifier.count = modifier.minQty;
@@ -88,7 +103,7 @@ export class ModifierGroupDto {
       );
       for (const modifier of notSelectedModifiers) {
         // if MinimumSelection do not done before
-        if (!this.minimumSelection) {
+        if (this.minimumSelection) {
           this.minimumSelection = 1;
         }
 

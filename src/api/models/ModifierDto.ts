@@ -2,45 +2,51 @@
 import { Constants } from "../constants/common";
 
 export class ModifierDto {
-  constructor() {
-    this.minQty = 1;
-    this.maxQty = Constants.MAX_QUANTITY;
+  constructor(json) {
+    this.modifierGroupId = json.modifierGroupId || "";
+    this._count = json.count || 0;
+    this.code = json.code || 0;
+    this.displayName = json.displayName || "";
+    this.displayOrder = json.displayOrder || 0;
+    this.iD = json.iD || 0;
+    this.linkedProductID = json.linkedProductID || "";
+    this.maxQty = json.maxQty || Constants.MAX_QUANTITY;
+    this.minQty = json.minQty || 1;
+    this.code = json.code || 0;
+    this.name = json.name || "";
+    this.photoUrl = json.photoUrl || "";
+    this.price = json.price || 0;
+    this.status = json.status || 1;
+    this.subModifiers = [];
+    this.taxRate = json.taxRate || 0;
   }
-  modifierGroup!: ModifierGroupDto;
-  status = 0;
-  code = "";
-  displayName!: string;
-  displayOrder!: number;
-  iD!: number;
-  name!: string;
-  linkedProductID!: string;
-  price!: number;
-  taxRate!: number | null;
-  photoUrl!: string;
-  subModifiers: ModifierGroupDto[] = [];
-  minQty!: number;
-  maxQty!: number;
-  _count!: number;
+  //navigation
+  modifierGroupId!: string;
+  status = 1;
+  code = 0;
+  displayName = "";
+  displayOrder = 1;
+  iD = 1;
+  name = "";
+  linkedProductID = "";
+  price = 0;
+  taxRate = 0;
+  photoUrl = "";
+  subModifiers: ModifierGroupDto[];
+  minQty = 0;
+  maxQty = 0;
+  _count = 0;
   get count() {
     return this._count;
   }
   set count(c: number) {
     this._count = c;
-    this.checkMaximumSelection();
-    this.checkMinimumSelection();
+    // this.checkMaximumSelection();
+    // this.checkMinimumSelection();
   }
-  get isSingleSell(): boolean {
-    return !(this.maxQty >= this.minQty && this.maxQty > 1);
-  }
-  get calculatedPrice(): number {
-    if (!this.price) {
-      return 0;
-    } else {
-      return this.count * this.price;
-    }
-  }
-  DecCanExecute(): boolean {
-    return !this.isDisableDecreament();
+
+  DecCanExecute(mg: ModifierGroupDto): boolean {
+    return this.isDisableDecreament(mg);
   }
 
   DecExecute() {
@@ -51,15 +57,13 @@ export class ModifierDto {
     }
   }
 
-  incCanExecute(): boolean {
-    return !this.isDisableIncreament();
+  incCanExecute(mg: ModifierGroupDto): boolean {
+    return this.isDisableIncreament(mg);
   }
 
-  increaseQuantity() {
-    if (this.modifierGroup.isSingleSel) {
-      const otherModifiers = this.modifierGroup.modifiersList.filter(
-        m => m.iD != this.iD
-      );
+  increaseQuantity(mg: ModifierGroupDto) {
+    if (mg.isSingleSel) {
+      const otherModifiers = mg.modifiersList.filter(m => (m.iD = this.iD));
       for (const md of otherModifiers) {
         md.count = 0;
       }
@@ -70,59 +74,49 @@ export class ModifierDto {
       this.count += 1;
     }
   }
-  isDisableIncreament(): boolean {
+  isDisableIncreament(mg: ModifierGroupDto): boolean {
     return (this.maxQty <= this.count ||
-      (!(this.modifierGroup.isSingleSel && this.count === 0) &&
-        this.modifierGroup.maximumDisabled) ||
+      (mg.isSingleSel && this.count === 0 && mg.maximumDisabled) ||
       (this.count === 0 &&
-        !this.modifierGroup.isSingleSel &&
-        this.modifierGroup.maximumSelection &&
-        this.modifierGroup.selectionCount + this.minQty >
-          this.modifierGroup.maximumSelection)) as boolean;
+        mg.isSingleSel &&
+        mg.maximumSelection &&
+        mg.selectionCount + this.minQty > mg.maximumSelection)) as boolean;
   }
 
-  isDisableDecreament(): boolean {
+  isDisableDecreament(mg: ModifierGroupDto): boolean {
     return (
       this.count == 0 ||
-      (this.modifierGroup.maximumDisabled && this.count == 0) ||
-      this.modifierGroup.minimumDisabled ||
-      (this.modifierGroup.isForceSel &&
+      (mg.maximumDisabled && this.count == 0) ||
+      mg.minimumDisabled ||
+      (mg.isForceSel &&
         this.count == this.minQty &&
-        this.modifierGroup.selectionCount - this.minQty <
-          this.modifierGroup.minimumSelection)
+        mg.selectionCount - this.minQty < mg.minimumSelection)
     );
   }
 
-  checkMaximumSelection() {
-    this.modifierGroup.selectionCount = this.modifierGroup.modifiersList.Sum(
-      md => md.Count
-    );
-    if (
-      this.modifierGroup.maximumSelection &&
-      this.modifierGroup.selectionCount >= this.modifierGroup.maximumSelection
-    ) {
-      this.modifierGroup.maximumDisabled = true;
+  checkMaximumSelection(mg: ModifierGroupDto) {
+    mg.selectionCount = mg.modifiersList.reduce((acc, md) => acc + md.count, 0);
+    if (mg.maximumSelection && mg.selectionCount >= mg.maximumSelection) {
+      mg.maximumDisabled = true;
     } else {
-      this.modifierGroup.maximumDisabled = false;
+      mg.maximumDisabled = false;
     }
   }
 
-  checkMinimumSelection() {
-    if (this.modifierGroup.isForceSel) {
-      this.modifierGroup.selectionCount = this.modifierGroup.modifiersList.reduce(
+  checkMinimumSelection(mg: ModifierGroupDto) {
+    if (mg.isForceSel) {
+      mg.selectionCount = mg.modifiersList.reduce(
         (acc, md) => acc + md.count,
         0
       );
-      if (!this.modifierGroup.minimumSelection) {
-        this.modifierGroup.minimumSelection = 1;
+      if (mg.minimumSelection) {
+        mg.minimumSelection = 1;
       }
 
-      if (
-        this.modifierGroup.selectionCount <= this.modifierGroup.minimumSelection
-      ) {
-        this.modifierGroup.minimumDisabled = true;
+      if (mg.selectionCount <= mg.minimumSelection) {
+        mg.minimumDisabled = true;
       } else {
-        this.modifierGroup.minimumDisabled = false;
+        mg.minimumDisabled = false;
       }
     }
   }

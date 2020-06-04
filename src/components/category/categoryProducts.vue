@@ -18,7 +18,10 @@
       </li>
     </ul>
     <modal v-if="showModal" @closed="showModal = false">
-      <product-details :product="selectedProduct" />
+      <product-details
+        :product="selectedProduct"
+        @item-added="showModal = false"
+      />
     </modal>
   </main>
 </template>

@@ -8,7 +8,7 @@
       <div class="product-price">${{ product.price }}</div>
     </div>
     <div v-if="product.photoUrl">
-      <img :src="product.photoUrl" :alt="product.name" />
+      <img :src="product.photoUrl" :alt="product.name" @error="imgNotFound" />
     </div>
   </div>
 </template>
@@ -21,7 +21,12 @@ export default Vue.extend({
   props: {
     product: {
       type: ProductDto,
-      default: () => new ProductDto()
+      default: () => new ProductDto({})
+    }
+  },
+  methods: {
+    imgNotFound(event) {
+      event.target.src = "#";
     }
   }
 });

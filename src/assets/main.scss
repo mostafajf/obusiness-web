@@ -269,6 +269,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      background-color: rgba($color: #ffffff, $alpha: 0.9);
       .quantities {
         display: flex;
         justify-content: center;
@@ -282,6 +283,14 @@
           display: flex;
           justify-content: center;
           align-items: center;
+          &:disabled {
+            color: rgb(175, 175, 175);
+            background: rgb(246, 246, 246);
+            cursor: not-allowed;
+          }
+          &:active:not([disabled]) {
+            background-color: var(--secondary-dark);
+          }
         }
         div {
           width: calc(1ch + 32px);

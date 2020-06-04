@@ -3,17 +3,20 @@ import Vuex from "vuex";
 import createPersistedState from "vuex-persistedstate";
 import storeModule from "./modules/storeModule";
 import menuModule from "./modules/menuModule";
+import shoppingCartModule from "./modules/shoppingCartModule";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   strict: true,
   modules: {
     storeModule,
-    menuModule
+    menuModule,
+    shoppingCartModule
   },
   plugins: [
     createPersistedState({
-      paths: ["storeModule", "menuModule"]
+      key: "obusiness",
+      paths: ["storeModule", "menuModule", "shoppingCartModule"]
     })
   ]
 });

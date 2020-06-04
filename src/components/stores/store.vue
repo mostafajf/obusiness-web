@@ -11,14 +11,14 @@
 
 <script lang="ts">
 import { Store } from "@/api/models/Store";
+import { PropOptions } from "vue";
 
 export default {
   name: "store",
   props: {
     store: {
-      type: Store,
-      default: () => new Store()
-    }
+      type: Object
+    } as PropOptions<Store>
   }
 };
 </script>
