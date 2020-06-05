@@ -1,5 +1,6 @@
 ﻿import { ModifierGroupDto } from "./ModifierGroupDto";
 import { Constants } from "../constants/common";
+import { CommonHelper } from "../helpers/commonHelper";
 
 export class ModifierDto {
   constructor(json) {
@@ -8,7 +9,8 @@ export class ModifierDto {
     this.code = json.code || 0;
     this.displayName = json.displayName || "";
     this.displayOrder = json.displayOrder || 0;
-    this.iD = json.iD || 0;
+    // TODO: remove auto id in production
+    this.iD = json.iD || CommonHelper.uuid();
     this.linkedProductID = json.linkedProductID || "";
     this.maxQty = json.maxQty || Constants.MAX_QUANTITY;
     this.minQty = json.minQty || 1;
@@ -22,6 +24,7 @@ export class ModifierDto {
   }
   //navigation
   modifierGroupId!: string;
+  isSelected = false;
   status = 1;
   code = 0;
   displayName = "";
@@ -63,9 +66,10 @@ export class ModifierDto {
 
   increaseQuantity(mg: ModifierGroupDto) {
     if (mg.isSingleSel) {
-      const otherModifiers = mg.modifiersList.filter(m => (m.iD = this.iD));
+      const otherModifiers = mg.modifiersList.filter(m => m.iD != this.iD);
       for (const md of otherModifiers) {
         md.count = 0;
+        md.isSelected = false;
       }
     }
     if (this.count == 0 && this.minQty > 0) {
@@ -140,6 +144,7 @@ export class ModifierDto {
   }
   resetCount() {
     this.count = 0;
+    this.isSelected = false;
     for (const mg of this.subModifiers) {
       mg.resetCount();
     }

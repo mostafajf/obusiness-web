@@ -315,4 +315,26 @@
       }
     }
   }
+  .modifier-groups {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    .mg-info {
+      background-color: #f6f6f6;
+      padding: 16px 24px;
+      & div:first-child {
+        font-size: 18px;
+        font-weight: 600;
+      }
+    }
+    .modifiers {
+      padding: 24px;
+      .modifier {
+        margin-bottom: 24px;
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
 }

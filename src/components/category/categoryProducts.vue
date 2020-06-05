@@ -33,6 +33,7 @@ import { CategoryDto } from "../../api/models/CategoryDto";
 import Product from "@/components/category/product.vue";
 import Modal from "@/components/shared/modal.vue";
 import ProductDetails from "@/components/category/productDetails.vue";
+import { ProductDto } from "../../api/models/ProductDto";
 export default Vue.extend({
   name: "CategoryProducts",
   components: {
@@ -53,9 +54,11 @@ export default Vue.extend({
     } as PropOptions<CategoryDto[]>
   },
   methods: {
-    showProductDetails(product) {
+    showProductDetails(product: ProductDto) {
       this.showModal = true;
-      this.selectedProduct = product;
+      const structuredProduct = new ProductDto(product);
+      structuredProduct.resetCount();
+      this.selectedProduct = structuredProduct;
     }
   }
 });

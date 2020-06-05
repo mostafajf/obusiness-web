@@ -11,7 +11,9 @@ export default {
   mutations: {
     addItem(state, item: ProductDto) {
       const now = DateTime.local().toUTC();
-      const find = state.items.filter(st => ProductDto.equals(st, item));
+      const find = state.items.filter(st =>
+        ProductDto.equals(new ProductDto(st), new ProductDto(item))
+      );
       if (find.length == 0) {
         item.uuid = CommonHelper.uuid();
         state.items?.splice(0, 0, item);

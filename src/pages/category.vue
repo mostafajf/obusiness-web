@@ -13,6 +13,7 @@ import CategoryMenu from "@/components/category/categoryMenu.vue";
 import CategoryProducts from "@/components/category/categoryProducts.vue";
 import { mapActions } from "vuex";
 import { MenuDto } from "../api/models/MenuDto";
+import { CommonHelper } from "../api/helpers/commonHelper";
 export default Vue.extend({
   name: "Category",
   components: {
@@ -25,7 +26,9 @@ export default Vue.extend({
   },
   computed: {
     currentMenu(): MenuDto {
-      return this.$store.getters.getCurrentMenu as MenuDto;
+      return CommonHelper.jsonCopy(
+        this.$store.getters.getCurrentMenu as MenuDto
+      );
     }
   },
   methods: {

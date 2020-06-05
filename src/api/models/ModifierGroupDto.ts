@@ -72,8 +72,8 @@ export class ModifierGroupDto {
       }
     }
 
-    // AutoSelectModifiers();
-    // ForceSelectModifiers();
+    this.autoSelectModifiers(initialModifiers);
+    this.forceSelectModifiers();
   }
   autoSelectModifiers(initialModifiers: ModifierDto[]) {
     if (this.isAutoSel && initialModifiers.length == 0) {

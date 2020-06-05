@@ -8,26 +8,22 @@
       <div class="product-price">${{ product.price }}</div>
     </div>
     <div v-if="product.photoUrl">
-      <img :src="product.photoUrl" :alt="product.name" @error="imgNotFound" />
+      <img :src="product.photoUrl" :alt="product.name" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import { ProductDto } from "@/api/models/ProductDto";
+import { PropOptions } from "vue";
+import { ProductDto } from "../../api/models/ProductDto";
+
 export default Vue.extend({
   name: "Product",
   props: {
     product: {
-      type: ProductDto,
-      default: () => new ProductDto({})
-    }
-  },
-  methods: {
-    imgNotFound(event) {
-      event.target.src = "#";
-    }
+      type: Object
+    } as PropOptions<ProductDto>
   }
 });
 </script>

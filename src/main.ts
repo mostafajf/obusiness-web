@@ -15,7 +15,12 @@ Vue.mixin(DetectWC);
 Vue.mixin(DetectVersion);
 Vue.config.productionTip = false;
 require("./assets/main.scss");
-
+// Vue.config.errorHandler = error => {
+//   console.error("vue error");
+// };
+// window.onerror = function(message, source, lineno, colno, error) {
+//   console.error("gloal error");
+// };
 new Vue({
   router,
   store,

@@ -5,6 +5,7 @@
       <h1>{{ product.name }}</h1>
       <div class="product-description">{{ product.shortDescription }}</div>
     </div>
+    <modifiers :modifier-groups="product.modifierGroups" />
     <hr />
     <div class="footer">
       <div class="quantities">
@@ -29,9 +30,13 @@
 <script lang="ts">
 import Vue from "vue";
 import { ProductDto } from "../../api/models/ProductDto";
+import Modifiers from "@/components/category/modifiers.vue";
 import { mapMutations } from "vuex";
 export default Vue.extend({
   name: "ProductDetails",
+  components: {
+    Modifiers
+  },
   props: {
     product: {
       type: ProductDto,

@@ -79,6 +79,7 @@ export class MenuFactory {
     for (const [key, value] of productModifierGroups) {
       const mgDto = this.ModifierGrouptoModifierGroupDto(key, value);
       mgDto.productId = `${productDto.iD}`;
+      mgDto.initModifiers([]);
       modifierGroupsList.push(mgDto);
     }
 

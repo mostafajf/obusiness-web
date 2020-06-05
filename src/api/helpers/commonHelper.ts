@@ -16,4 +16,7 @@ export class CommonHelper {
       return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
     });
   }
+  static jsonCopy(object) {
+    return JSON.parse(JSON.stringify(object));
+  }
 }
