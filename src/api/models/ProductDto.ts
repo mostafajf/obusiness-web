@@ -26,7 +26,7 @@ export class ProductDto {
    *
    */
   constructor(json) {
-    this.count = json.count || 1;
+    this.count = json._count || 1;
     this.displayOrder = json.displayOrder || 1;
     this.fullDescription = json.fullDescription || 1;
     this.iD = json.iD || 1;
@@ -51,6 +51,11 @@ export class ProductDto {
   }
   get modifiers() {
     return this.modifierGroups.flatMap(mg => mg.modifiersList);
+  }
+  get selectedModifiers() {
+    return this.modifierGroups
+      .flatMap(mg => mg.modifiersList)
+      .filter(md => md.isSelected);
   }
   clone() {
     return JSON.parse(JSON.stringify(this)) as ProductDto;

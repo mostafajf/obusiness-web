@@ -1,5 +1,9 @@
+@import "./theme.scss";
 .fw-600 {
   font-weight: 600;
+}
+.fw-700 {
+  font-weight: 700;
 }
 .fw-500 {
   font-weight: 500;
@@ -10,7 +14,19 @@
 .mt-2 {
   margin-top: 16px;
 }
-.custome-radio {
+.h-24 {
+  height: 24px;
+}
+.w-16 {
+  width: 16px;
+}
+.w-8 {
+  width: 8px;
+}
+.custom-radio {
+  &.disabled {
+    opacity: 0.5;
+  }
   input {
     pointer-events: none;
     outline: none;
@@ -24,7 +40,6 @@
     width: 100%;
     cursor: pointer;
     &::before {
-      border-radius: 50%;
       vertical-align: top;
       width: 22px;
       height: 22px;
@@ -34,17 +49,34 @@
       border-style: solid;
       border-color: rgb(175, 175, 175);
     }
-
-    div:first-child {
+    &.radio::before {
+      border-radius: 50%;
+    }
+    div:first-of-type {
       width: 16px;
       height: 1px;
       padding: 0;
       margin: 0;
       flex-shrink: 0;
     }
+    .checkmark {
+      display: none;
+      path {
+        fill: var(--primary);
+      }
+    }
   }
-  input:checked + label::before {
-    border-color: rgb(0, 0, 0);
-    border-width: 8px;
+  input:checked {
+    & + label.radio::before {
+      border-color: var(--primary);
+      border-width: 8px;
+    }
+
+    & + label.check::before {
+      display: none;
+    }
+    & + label > .checkmark {
+      display: block;
+    }
   }
 }

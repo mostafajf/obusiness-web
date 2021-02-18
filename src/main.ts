@@ -7,12 +7,14 @@ import storeLayout from "@/layouts/storeLayout.vue";
 import { DetectMobile } from "@/mixins/detectmobile";
 import { DetectWC } from "@/mixins/wcDetector";
 import { DetectVersion } from "@/mixins/versionDetector";
+import { currency } from "./filters/currency";
 
 Vue.component("full-layout", fullLayout);
 Vue.component("store-layout", storeLayout);
 Vue.mixin(DetectMobile);
 Vue.mixin(DetectWC);
 Vue.mixin(DetectVersion);
+Vue.filter("currency", currency);
 Vue.config.productionTip = false;
 require("./assets/main.scss");
 // Vue.config.errorHandler = error => {

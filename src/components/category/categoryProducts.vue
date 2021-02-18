@@ -17,11 +17,8 @@
         </ul>
       </li>
     </ul>
-    <modal v-if="showModal" @closed="showModal = false">
-      <product-details
-        :product="selectedProduct"
-        @item-added="showModal = false"
-      />
+    <modal ref="modal" v-if="showModal" @closed="showModal = false">
+      <product-details :product="selectedProduct" @item-added="closeModal()" />
     </modal>
   </main>
 </template>
@@ -59,6 +56,10 @@ export default Vue.extend({
       const structuredProduct = new ProductDto(product);
       structuredProduct.resetCount();
       this.selectedProduct = structuredProduct;
+    },
+    closeModal() {
+      this.showModal = false;
+      (this.$refs.modal as any).close();
     }
   }
 });

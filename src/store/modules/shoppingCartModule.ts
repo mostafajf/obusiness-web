@@ -16,15 +16,16 @@ export default {
       );
       if (find.length == 0) {
         item.uuid = CommonHelper.uuid();
-        state.items?.splice(0, 0, item);
+        state.items.splice(0, 0, item);
       } else {
         find[0].count += item.count;
         find[0].dateCreated = now;
       }
     },
     removeItem(state, itemId) {
+      debugger;
       const find = state.items.find(st => st.uuid == itemId);
-      state.cartItems.splice(state.items.indexOf(find), 1);
+      state.items.splice(state.items.indexOf(find), 1);
     },
     updateQuantity(state, { itemId, newQuantity }) {
       const find = state.items.find(st => st.uuid == itemId);
@@ -37,6 +38,13 @@ export default {
     }
   },
   getters: {
+    cartItems(state): ProductDto[] {
+      const result: ProductDto[] = [];
+      state.items.forEach(item => {
+        result.push(new ProductDto(item));
+      });
+      return result;
+    },
     cartValue(state) {
       let sum = 0;
       state.items.forEach(item => {

@@ -5,7 +5,7 @@
       <h1>{{ product.name }}</h1>
       <div class="product-description">{{ product.shortDescription }}</div>
     </div>
-    <modifiers :modifier-groups="product.modifierGroups" />
+    <modifiers :modifier-groups="vm.modifierGroups" />
     <hr />
     <div class="footer">
       <div class="quantities">

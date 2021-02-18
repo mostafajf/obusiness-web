@@ -1,5 +1,5 @@
 <template>
-  <div class="custome-radio">
+  <div class="custom-radio">
     <input
       ref="radioInput"
       type="radio"
@@ -8,7 +8,7 @@
       :name="group"
       @input="change"
     />
-    <label :for="radioId" @click="selectInput()">
+    <label class="radio" :for="radioId" @click="selectInput()">
       <div></div>
       <div>{{ label }}</div>
     </label>

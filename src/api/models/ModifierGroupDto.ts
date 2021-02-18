@@ -11,6 +11,8 @@ export class ModifierGroupDto {
     this.isForceSel = json.isForceSel || false;
     this.isPromptSel = json.isPromptSel || false;
     this.isSingleSel = json.isSingleSel;
+    this.maximumSelection = json.maximumSelection || 1;
+    this.minimumSelection = json.minimumSelection || 1;
     this.parentModifier = new ModifierDto({});
     this.name = json.name || "";
     this.name = json.name || "";

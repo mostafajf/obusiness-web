@@ -209,6 +209,8 @@
     }
   }
   .modal-backdrop {
+    animation: modal-animation 0.1s ease-in;
+
     position: fixed;
     height: 100vh;
     z-index: 4;
@@ -232,13 +234,47 @@
         height: 80px;
       }
       .modal-body {
-        animation: modal-animation 0.2s ease-in;
         background: white;
         margin: 0 auto;
         position: relative;
         .modal-content {
           width: 676px;
           position: relative;
+          .header {
+            position: sticky;
+            height: 0;
+            top: 0;
+            z-index: 3;
+            & > div:first-child {
+              display: flex;
+              align-items: center;
+              transition: height 300ms ease 0s, opacity 300ms ease 0s;
+              height: 0;
+              background: #ffffff;
+              opacity: 0;
+              box-shadow: rgb(226, 226, 226) 0px -2px 0px inset;
+              .title {
+                font-size: 18px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                flex: 1 1 auto;
+                white-space: nowrap;
+                text-align: center;
+              }
+            }
+            button {
+              position: absolute;
+              left: 8px;
+              top: 8px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              width: 48px;
+              height: 48px;
+              border-radius: 50%;
+              background: #ffffff;
+            }
+          }
         }
       }
     }
@@ -331,8 +367,67 @@
       padding: 24px;
       .modifier {
         margin-bottom: 24px;
+        display: flex;
+        justify-content: space-between;
         &:last-child {
           margin-bottom: 0;
+        }
+      }
+    }
+  }
+  //shopping cart
+  .shopping-cart {
+    &.dialog {
+      position: fixed;
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 10px;
+      transition: opacity 500ms ease 0s;
+      width: 432px;
+      right: 82px;
+      top: 62px;
+      z-index: 4;
+      background: #ffffff;
+    }
+    padding: 0 24px;
+    max-height: calc(100vh - 150px);
+    overflow-y: scroll;
+    .close {
+      background: transparent;
+    }
+    .title {
+      font-size: 36px;
+    }
+    .items {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      li {
+        display: flex;
+        & > div:first-child {
+          width: 72px;
+          select {
+            width: 100%;
+            padding: 2px;
+            background: var(--secondary);
+          }
+        }
+        .item-info-box {
+          flex: 1;
+          .item-info {
+            display: flex;
+            justify-content: space-between;
+          }
+          button {
+            background: transparent;
+          }
+          .modifiers-list {
+            display: block;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            li:first-child {
+              margin: 8px 0px 4px;
+            }
+          }
         }
       }
     }

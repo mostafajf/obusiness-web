@@ -5,7 +5,7 @@ import { CommonHelper } from "../helpers/commonHelper";
 export class ModifierDto {
   constructor(json) {
     this.modifierGroupId = json.modifierGroupId || "";
-    this._count = json.count || 0;
+    this.count = json._count || 0;
     this.code = json.code || 0;
     this.displayName = json.displayName || "";
     this.displayOrder = json.displayOrder || 0;
@@ -24,7 +24,16 @@ export class ModifierDto {
   }
   //navigation
   modifierGroupId!: string;
-  isSelected = false;
+  _isSelected = false;
+  get isSelected(): boolean {
+    return this._isSelected || this.count > 0;
+  }
+  set isSelected(val: boolean) {
+    this._isSelected = val;
+    if (val) this.count++;
+    else this.count--;
+    if (this.count < 0) this.count = 0;
+  }
   status = 1;
   code = 0;
   displayName = "";
@@ -44,8 +53,6 @@ export class ModifierDto {
   }
   set count(c: number) {
     this._count = c;
-    // this.checkMaximumSelection();
-    // this.checkMinimumSelection();
   }
 
   DecCanExecute(mg: ModifierGroupDto): boolean {
